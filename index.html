@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ffafbd;
+            --heart-color: rgba(255, 105, 180, 0.5);
+            --text-grey: #666;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffe5ec; 
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            color: var(--heart-color);
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            animation: float 6s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(1); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 4rem 2rem; /* Larger padding */
+            border-radius: 40px;
+            box-shadow: 0 25px 60px rgba(255, 75, 110, 0.15);
+            text-align: center;
+            z-index: 10;
+            max-width: 500px; /* Wider container */
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Pattaya', sans-serif;
+            color: #ff4b6b;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gif-container img {
+            width: 220px; /* Slightly larger GIF */
+            height: auto;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px; /* Clear separation */
+            margin-bottom: 2.5rem;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #yesBtn {
+            background: #ff4b6b;
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 75, 107, 0.3);
+            z-index: 11;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background: #fff;
+            color: #ff4b6b;
+            border: 2px solid #ff4b6b;
+            position: relative; /* Starts in flow */
+            transition: all 0.15s ease-out;
+            z-index: 12;
+        }
+
+        .footer-text {
+            font-size: 1.5rem;
+            color: var(--text-grey);
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .hidden { display: none; }
+
+        #successCard h2 {
+            font-family: 'Pattaya', sans-serif;
+            color: #ff4b6b;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainCard">
+        <div class="gif-container">
+            <img src="bubu-dudu.gif" alt="Cute Bear">
+        </div>
+        <h1>Chinky will you be my Valentine?</h1>
+        
+        <div class="button-group">
+            <button class="btn" id="yesBtn" onclick="celebrate()">Yes!</button>
+            <button class="btn" id="noBtn" onmouseover="dodge()" onclick="dodge()">No</button>
+        </div>
+
+        <p class="footer-text">"No" seems to shy away 😈</p>
+    </div>
+
+    <div class="container hidden" id="successCard">
+        <div class="gif-container">
+            <img src="woah-surprised.gif" alt="Happy Dance">
+        </div>
+        <h2>Yay! I knew you'd say Yes! ❤️</h2>
+        <p>This is going to be the best Valentine's ever!</p>
+    </div>
+
+    <script>
+        // Create Floating Hearts background
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+        setInterval(createHeart, 400);
+
+        // The Dodge logic
+        function dodge() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // Generate a random position anywhere on the screen
+            // but ensuring it doesn't just flicker in place
+            const padding = 60;
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('mainCard').classList.add('hidden');
+            document.getElementById('successCard').classList.remove('hidden');
+            
+            // Extra heart burst for victory!
+            for(let i=0; i<30; i++) {
+                setTimeout(createHeart, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>
